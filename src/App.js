@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import * as firebaseInit from './FirebaseInit';
+import ForegroundNotificationComponent from './ForegroundNotificationComponent';
+import NotificationComponent from './NotificationComponent';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      showNotification:false,
+      notification:{}
+    };
+  }
+  
+  componentDidMount(){
+    firebaseInit.onMessageListener()
+    .then((payload) => {
+      console.log(payload);
+      const notification = {}
+      notification.title= payload.notification.title
+      notification.body = payload.notification.body
+      this.setState({showNotification:true,notification:notification})
+    })
+ .catch((err) => console.log("failed: ", err));
+  }
+
+
+  render() {
+    return (
+      <div>
+      <NotificationComponent/>
+      <ForegroundNotificationComponent notification={this.state.notification}/>
+      NotificationComponent
+      </div>
+    );
+  }
 }
-
-export default App;
