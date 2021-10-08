@@ -14,17 +14,18 @@ function App() {
 
   onMessageListener()
     .then((payload) => {
+      console.log("payload",payload)
       setShow(true);
       setNotification({
         title: payload.notification.title,
         body: payload.notification.body,
       });
-      console.log(payload);
     })
     .catch((err) => console.log("failed: ", err));
 
   return (
     <div className="App">
+      Hello react js
       {show ? (
         <ReactNotificationComponent
           title={notification.title}
@@ -34,7 +35,7 @@ function App() {
         <></>
       )}
       <Notifications />
-      <Fader text="Hello React"></Fader>
+      {/* <Fader text="Hello React"></Fader> */}
     </div>
   );
 }
