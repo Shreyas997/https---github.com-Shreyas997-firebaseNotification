@@ -3,7 +3,7 @@ import { getToken } from "../../firebaseInit.js";
 
 const Notifications = (props) => {
   const [isTokenFound, setTokenFound] = useState(false);
-
+const [token,setToken]=useState("")
   console.log("Token found", isTokenFound);
 
   // To load once
@@ -14,6 +14,7 @@ const Notifications = (props) => {
       data = await getToken(setTokenFound);
       if (data) {
         console.log("Token is", data);
+        setToken(data)
       }
       return data;
     }
@@ -21,7 +22,11 @@ const Notifications = (props) => {
     tokenFunc();
   }, [setTokenFound]);
 
-  return <></>;
+  return (
+    <div>
+      {token}
+    </div>
+  );
 };
 
 Notifications.propTypes = {};
